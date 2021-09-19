@@ -1,0 +1,15 @@
+/**
+*    @Author - Anushri
+*    @Description - Trigger for Transaction Item
+**/
+trigger TransactionItemTrigger on TransactionItem__c (after insert) {
+
+    set<Id> trasnactionIds = new set<Id>();
+    
+    for(TransactionItem__c transactionItem : Trigger.new){
+        trasnactionIds.add(transactionItem.Transaction__c);
+    }    
+
+    ProcessTransactions newProcess = new ProcessTransactions();
+    newProcess.run(trasnactionIds); 
+}
